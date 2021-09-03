@@ -1,0 +1,83 @@
+from random import randint
+from termcolor import cprint
+
+def game_win(step):
+    if count_bulls == 4:
+        if step == 1:
+            cprint('Молодец ты выиграл за {} ход'.format(step),color=user_color)
+            cprint('ход!!! Загаданное число было:{}'.format(hidden_number),color=user_color)
+        elif 2 <= step <= 4:
+            cprint('Молодец ты выиграл за {} хода'.format(step),color=user_color)
+            cprint('хода!!! Загаданное число было:{}'.format(hidden_number),color=user_color)
+        elif step >= 5:
+            cprint('Молодец ты выиграл за {} ходов'.format(step),color=user_color)
+            cprint( 'ходов!!! Загаданное число было: {}'.format(hidden_number),color=user_color)
+
+hidden_number = []
+
+def computer_numeric():
+    global hidden_number
+    if len(hidden_number) > 0:
+        hidden_number = []
+    for i in range(4):
+        while True:
+            number = randint(1,9)
+            if number not in hidden_number:
+                hidden_number.append(number)
+                break
+    return hidden_number
+
+user_guess = []
+def user_input():
+    global user_guess
+    while True:
+        user_guess = input('Введите 4 разных числа от 1 до 9: ')
+        if user_guess.isnumeric() and 1111 <= int(user_guess) <= 9999:
+            print('Вы ввели:', user_guess, 'начнем игру!')
+            break
+        else:
+            print('Ваше число не в диапазоне. Попробуйте снова!')
+    return user_guess
+
+step = 0
+count_bulls = []
+def count_b_c():
+    global count_bulls
+    global count_cows
+    global step
+    count_cows = 0
+    count_bulls = 0
+    step += 1
+    for i in hidden_number:
+        if i in user_choice:
+            if hidden_number.index(i) == user_choice.index(i):
+                count_bulls += 1
+                print('Вы угадали число',i, 'и место!')
+            else:
+                count_cows += 1
+                print('Вы угадали число:',i,',','но не угадали место!')
+    print('Быков=',count_bulls,'Коров=',count_cows)
+
+user_color = 'red'
+user_color_1 = 'blue'
+user_color_2 = 'green'
+computer_numeric()
+
+while True:
+    user_input()
+    user_choice = [int(c) for c in user_guess]
+    print(user_choice)
+    count_b_c()
+    print('Ходов сделано:',step)
+    if count_bulls == 4:
+        if step == 1:
+            cprint('Молодец ты выиграл за {} ход!!!'.format(step), color=user_color)
+            cprint('Загаданное число было:{}'.format(hidden_number), color=user_color_1)
+        elif 2 <= step <= 4:
+            cprint('Молодец ты выиграл за {} хода!!!'.format(step), color=user_color)
+            cprint('Загаданное число было:{}'.format(hidden_number), color=user_color_1)
+        elif step >= 5:
+            cprint('Молодец ты выиграл за {} ходов!!!'.format(step), color=user_color)
+            cprint('Загаданное число было: {}'.format(hidden_number), color=user_color_1)
+            break
+
